@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:grade_flutter/auth/authenticator.dart';
 import 'package:grade_flutter/utils/colors_const.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -112,8 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 label: Text("Nome"),
                               ),
                               validator: (value) {
-                                if (value == null || value.length < 7) {
-                                  return "O nome deve possuir pelo menos 7 caracteres.";
+                                if (value == null || value.length < 5) {
+                                  return "O nome deve possuir pelo menos 5 caracteres.";
                                 }
                                 return null;
                               },
@@ -123,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        testeEnvio();
+                        send();
                       },
                       child: Text(
                         (firstAccess) ? "Entrar" : "Cadastre-se",
@@ -153,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  testeEnvio() {
+  send() {
     String email = emailController.text;
     String senha = passwordController.text;
     String nome = nameController.text;
@@ -167,13 +168,26 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  entrar({required String email, required String senha}) {
-    print("Usuário entrou. E-mail: $email, Senha: $senha");
+  entrar({required String email, required String senha}) async {
+    Authenticator().signIn(email: email, password: senha).then((String? value) {
+      if (value != null) {
+        snackbarError(message: value, context: context);
+      } else {
+        snackbarOk(message: "Login realizado com sucesso!", context: context);
+      }
+    });
   }
 
-  criarUsuario(
-      {required String email, required String senha, required String nome}) {
-    print("Usuário criado. E-mail: $email, Senha: $senha, Nome: $nome");
+  criarUsuario({required String email, required String senha, required String nome}) async {
+    Authenticator().signUp(email: email, password: senha, name: nome).then((String? value) {
+      if (value != null) {
+        snackbarError(message: value, context: context);
+      } else {
+        snackbarOk(message: "Usuário criado com sucesso!", context: context);
+      }
+    });
   }
+
+
   
 }

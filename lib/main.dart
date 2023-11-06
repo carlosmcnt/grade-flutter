@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:grade_flutter/screens/login_screen.dart';
 import 'firebase_options.dart';
+import 'package:grade_flutter/screens/login_screen.dart';
 import 'utils/colors_const.dart';
 
 void main() async{

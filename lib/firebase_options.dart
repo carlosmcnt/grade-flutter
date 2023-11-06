@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1075339310730',
     projectId: 'grade-flutter-e6b5f',
     authDomain: 'grade-flutter-e6b5f.firebaseapp.com',
+    databaseURL: 'https://grade-flutter-e6b5f-default-rtdb.firebaseio.com',
     storageBucket: 'grade-flutter-e6b5f.appspot.com',
     measurementId: 'G-ZJF1YPRX40',
   );
@@ -61,6 +62,7 @@ class DefaultFirebaseOptions {
     appId: '1:1075339310730:android:caf75ce9f162c46a2f9f73',
     messagingSenderId: '1075339310730',
     projectId: 'grade-flutter-e6b5f',
+    databaseURL: 'https://grade-flutter-e6b5f-default-rtdb.firebaseio.com',
     storageBucket: 'grade-flutter-e6b5f.appspot.com',
   );
 
@@ -69,6 +71,7 @@ class DefaultFirebaseOptions {
     appId: '1:1075339310730:ios:e0f0c9051921f1252f9f73',
     messagingSenderId: '1075339310730',
     projectId: 'grade-flutter-e6b5f',
+    databaseURL: 'https://grade-flutter-e6b5f-default-rtdb.firebaseio.com',
     storageBucket: 'grade-flutter-e6b5f.appspot.com',
     iosBundleId: 'com.example.gradeFlutter',
   );
