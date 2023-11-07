@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:grade_flutter/screens/login_screen.dart';
+
 import 'utils/colors_const.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
@@ -12,7 +13,6 @@ void main() async{
   );
 
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: ColorsConst.indigo,
         scaffoldBackgroundColor: ColorsConst.purple[800],
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: ColorsConst.indigo,  
+          backgroundColor: ColorsConst.indigo,
         ),
         listTileTheme: const ListTileThemeData(
           iconColor: ColorsConst.purple,

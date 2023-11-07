@@ -1,24 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:grade_flutter/auth/authenticator.dart';  
+import 'package:grade_flutter/auth/authenticator.dart';
+
+class Curso {
+  final String nome;
+
+  Curso(this.nome);
+}
 
 class HomeScreen extends StatefulWidget {
-  
-  final User user;
+  const HomeScreen({super.key});
 
-  const HomeScreen({super.key, required this.user});
-  
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
+    User user = auth.currentUser ??
+        snackbarError(message: 'erro no usuário', context: context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Minha Grade UFBA"),
@@ -34,8 +38,42 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      body: Column(
+        children: [
+          Center(
+            child: Text("Bem vindo, ${user.email}"),
+          ),
+          menuCursos()
+        ],
+      ),
+    );
+  }
+}
+
+class menuCursos extends StatelessWidget {
+  menuCursos({super.key});
+
+  final cursos = [
+    Curso("Escova"),
+    Curso("Sabonete"),
+    Curso("Condicionador"),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(
+      //   title: const Center(
+      //     child: Text('Cursos'),
+      //   ),
+      // ),
       body: Center(
-        child: Text("Bem vindo, ${widget.user.email}"),
+        child: ListView.builder(
+          itemCount: cursos.length,
+          itemBuilder: (context, index) {
+            return ListTile(title: Text(cursos[index].nome));
+          },
+        ),
       ),
     );
   }
