@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grade_flutter/auth/authenticator.dart';
+import 'package:grade_flutter/screens/home_screen.dart';
 import 'package:grade_flutter/utils/colors_const.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -7,11 +8,9 @@ class LoginScreen extends StatefulWidget {
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
-
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
@@ -70,7 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (value == null || value == "") {
                           return "O e-mail não pode ser vazio.";
                         }
-                        if (!value.contains("@") || !value.contains(".") || value.length < 4) {
+                        if (!value.contains("@") ||
+                            !value.contains(".") ||
+                            value.length < 4) {
                           return "O e-mail deve possuir um formato válido.";
                         }
                         return null;
@@ -138,9 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       },
                       child: Text(
-                        (firstAccess)
-                            ? "Cadastrar"
-                            : "Voltar",
+                        (firstAccess) ? "Cadastrar" : "Voltar",
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -173,13 +172,24 @@ class _LoginScreenState extends State<LoginScreen> {
       if (value != null) {
         snackbarError(message: value, context: context);
       } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
         snackbarOk(message: "Login realizado com sucesso!", context: context);
       }
     });
   }
 
-  criarUsuario({required String email, required String senha, required String nome}) async {
-    Authenticator().signUp(email: email, password: senha, name: nome).then((String? value) {
+  criarUsuario(
+      {required String email,
+      required String senha,
+      required String nome}) async {
+    Authenticator()
+        .signUp(email: email, password: senha, name: nome)
+        .then((String? value) {
       if (value != null) {
         snackbarError(message: value, context: context);
       } else {
@@ -187,7 +197,4 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     });
   }
-
-
-  
 }
