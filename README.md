@@ -4,11 +4,14 @@ Aplicativo em Flutter para visualização e criação de grade de matérias na U
 
 ## Como rodar
 
-A definir
+Entrar na pasta raiz do projeto, digitar no terminal `flutter run` e selecionar a plataforma (de preferência web)
 
 ## Guia de telas
 
-A definir
+Tela de Login/Registrar
+Tela de Home/Seleção de Cursos (em desenvolvimento)
+Tela de Visualização da Grade (em desenvolvimento)
+Tela de Detalhes da Matéria (a definir)
 
 ## Membros da equipe 
 
