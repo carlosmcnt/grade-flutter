@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:grade_flutter/auth/authenticator.dart';
-import 'package:grade_flutter/screens/home_screen.dart';
 import 'package:grade_flutter/utils/colors_const.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController submitController = TextEditingController();
 
   final key = GlobalKey<FormState>();
+  Authenticator authenticator = Authenticator();
 
   bool firstAccess = true;
 
@@ -168,16 +168,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   entrar({required String email, required String senha}) async {
-    Authenticator().signIn(email: email, password: senha).then((String? value) {
+    authenticator.signIn(email: email, password: senha).then((String? value) {
       if (value != null) {
         snackbarError(message: value, context: context);
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
-          ),
-        );
         snackbarOk(message: "Login realizado com sucesso!", context: context);
       }
     });
@@ -187,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
       {required String email,
       required String senha,
       required String nome}) async {
-    Authenticator()
+    authenticator
         .signUp(email: email, password: senha, name: nome)
         .then((String? value) {
       if (value != null) {

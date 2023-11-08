@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:grade_flutter/screens/home_screen.dart';
 import 'firebase_options.dart';
 import 'package:grade_flutter/screens/login_screen.dart';
 
@@ -43,7 +45,31 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const LoginScreen(),
+      home: const Router(),
+    );
+  }
+}
+
+class Router extends StatelessWidget {
+  const Router({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseAuth.instance.userChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          if (snapshot.hasData) {
+            return HomeScreen(
+              user: snapshot.data!,
+            );
+          } else {
+            return const LoginScreen();
+          }
+        }
+      },
     );
   }
 }

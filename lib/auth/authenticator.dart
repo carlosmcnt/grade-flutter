@@ -8,14 +8,15 @@ class Authenticator {
   Future<String?> signIn({required String email, required String password}) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
+
     } on FirebaseAuthException catch (e) {
         switch (e.code) {
           case "user-not-found":
             return "O e-mail não está cadastrado.";
-          case "wrong-password":
-            return "Senha incorreta.";
+          case "invalid-login-credentials":
+            return "Login ou senha inválidos.";
           default:
-            return "Erro ao tentar logar usuário.";
+            return "Erro ao logar no aplicativo.";
         }
     }
     return null;
@@ -23,7 +24,8 @@ class Authenticator {
 
   Future<String?> signUp({required String email, required String password, required String name}) async {
     try {
-      await auth.createUserWithEmailAndPassword(email: email, password: password);
+       UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password);
+      await userCredential.user!.updateDisplayName(name);
     } on FirebaseAuthException catch (e) {
         switch (e.code) {
           case "weak-password":
