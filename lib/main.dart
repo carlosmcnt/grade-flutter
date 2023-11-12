@@ -1,24 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grade_flutter/screens/home_screen.dart';
 import 'firebase_options.dart';
 import 'package:grade_flutter/screens/login_screen.dart';
-
 import 'utils/colors_const.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  if(kIsWeb){
+    databaseFactory = databaseFactoryFfiWeb;
+  }
+  else {
+    databaseFactory = databaseFactoryFfi;
+  }
+
+  runApp(const GradeApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GradeApp extends StatelessWidget {
+  const GradeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +36,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: ColorsConst.indigo,
-        scaffoldBackgroundColor: ColorsConst.purple[800],
+        scaffoldBackgroundColor: ColorsConst.indigo[300],
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: ColorsConst.indigo,
+          backgroundColor: ColorsConst.blueGray,
         ),
         listTileTheme: const ListTileThemeData(
-          iconColor: ColorsConst.purple,
+          iconColor: ColorsConst.indigo,
         ),
         appBarTheme: const AppBarTheme(
           toolbarHeight: 72,

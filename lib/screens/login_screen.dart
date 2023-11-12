@@ -136,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         setState(() {
                           firstAccess = !firstAccess;
+                          clear();
                         });
                       },
                       child: Text(
@@ -191,4 +192,12 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     });
   }
+
+  clear(){
+    emailController.clear();
+    passwordController.clear();
+    nameController.clear();
+    submitController.clear();
+  }
+
 }

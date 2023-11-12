@@ -11,8 +11,6 @@ class Authenticator {
 
     } on FirebaseAuthException catch (e) {
         switch (e.code) {
-          case "user-not-found":
-            return "O e-mail não está cadastrado.";
           case "invalid-login-credentials":
             return "Login ou senha inválidos.";
           default:
@@ -28,8 +26,6 @@ class Authenticator {
       await userCredential.user!.updateDisplayName(name);
     } on FirebaseAuthException catch (e) {
         switch (e.code) {
-          case "weak-password":
-            return "A senha deve ter no mínimo 6 caracteres.";
           case "email-already-in-use":
             return "O e-mail já está cadastrado.";
           default:
@@ -52,6 +48,7 @@ class Authenticator {
 
 snackbarError({required String message, required BuildContext context, bool erro = true}) {
   SnackBar snackbar = SnackBar(
+    duration: const Duration(seconds: 3),
     content: Text(message),
     backgroundColor: erro ? Colors.red : Colors.green,
   );
@@ -60,6 +57,7 @@ snackbarError({required String message, required BuildContext context, bool erro
 
 snackbarOk({required String message, required BuildContext context}) {
   SnackBar snackbar = SnackBar(
+    duration: const Duration(seconds: 3),
     content: Text(message),
     backgroundColor: Colors.green,
   );

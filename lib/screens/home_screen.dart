@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grade_flutter/auth/authenticator.dart';
+import 'package:grade_flutter/screens/course_view_screen.dart';
 class HomeScreen extends StatefulWidget {
 
   const HomeScreen({super.key, required this.user});
@@ -20,19 +21,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Minha Grade UFBA"),
+        centerTitle: true,
+        title: RichText(
+            text: const TextSpan(
+              children: [
+                WidgetSpan(
+                  child: Icon(Icons.house, size: 25),
+                ),
+                TextSpan(
+                  text: " Menu Principal",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ),
+                ),
+              ],
+            ),
+          ),
         actions: [
           IconButton(
             onPressed: () async {
               authenticator.signOut();
             },
             icon: const Icon(Icons.logout_outlined),
-            tooltip: "Sair",
+            tooltip: "Sair do app",
           ),
         ],
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 10),
             Padding(
@@ -40,19 +60,21 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 "Bem vindo(a), ${user.displayName}!",
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white.withOpacity(0.75),
                 ),
               ),
             ),
             const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Selecione o curso que deseja visualizar a grade:",
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  color: Colors.white.withOpacity(0.75),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -61,32 +83,30 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MenuMateriasCC()),
-                );
+               Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CourseViewScreen()));
               },
-              child: const Text('Ciência da Computação'),
+              child: const Text('Ciência da Computação', style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MenuMateriasSI()),
+                  MaterialPageRoute(builder: (context) => const CourseViewScreen()),
                 );
               },
-              child: const Text('Sistemas de Informação'),
+              child: const Text('Sistemas de Informação', style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MenuMateriasLC()),
+                  MaterialPageRoute(builder: (context) => const CourseViewScreen()),
                 );
               },
-              child: const Text('Licenciatura em Computação'),
+              child: const Text('Licenciatura em Computação', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -94,118 +114,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-class Materia {
-  final String nome;
-  final String codigo;
-  final int cargaHoraria;
-  final String prerequisitos;
-  final int semestre;
-
-  Materia(this.codigo, this.nome, this.cargaHoraria, this.prerequisitos, this.semestre);
-}
-
-class MenuMateriasCC extends StatelessWidget {
-  MenuMateriasCC({super.key});
-
-  final materiasCC = [
-    Materia("MATA02", "Cálculo 1", 90, "Nenhum", 1),
-    Materia("MATA01", "Geométria Analítica", 60, "Nenhum", 1),
-    Materia("MATA37", "Introdução à Lógica de Programação", 60, "Nenhum", 1),
-    Materia("MATA39", "Seminários de Introdução ao Curso", 45, "Nenhum", 1),
-    Materia("MATA42", "Matemática Discreta I", 60, "Nenhum", 1),
-    Materia("MATA38", "Projeto de Circuitos Lógicos", 60, "Nenhum", 1),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: const Center(
-      //     child: Text('Materias'),
-      //   ),
-      // ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: materiasCC.length,
-          itemBuilder: (context, index) {
-            return ListTile(title: Text(materiasCC[index].nome), 
-            subtitle: Text(materiasCC[index].codigo), 
-            textColor: Colors.white,);
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class MenuMateriasSI extends StatelessWidget {
-  MenuMateriasSI({super.key});
-
-  final materiasSI = [
-    Materia("MATA02", "Cálculo 1", 90, "Nenhum", 1),
-    Materia("MATA68", "Computador, Ética e Sociedade", 45, "Nenhum", 1),
-    Materia("MATA37", "Introdução à Lógica de Programação", 60, "Nenhum", 1),
-    Materia("MATA39", "Seminários de Introdução ao Curso", 45, "Nenhum", 1),
-    Materia("MATA42", "Matemática Discreta I", 60, "Nenhum", 1),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: const Center(
-      //     child: Text('Materias'),
-      //   ),
-      // ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: materiasSI.length,
-          itemBuilder: (context, index) {
-            return ListTile(title: Text(materiasSI[index].nome), 
-            subtitle: Text(materiasSI[index].codigo), 
-            textColor: Colors.white,);
-          },
-        ),
-      ),
-    );
-  }
-}
-
-
-class MenuMateriasLC extends StatelessWidget {
-  MenuMateriasLC({super.key});
-
-  final materiasLC = [
-    Materia("EDCB80", "Filosofia da Educação", 60, "Nenhum", 1),
-    Materia("MATA01", "Geométria Analítica", 60, "Nenhum", 1),
-    Materia("MATA37", "Introdução à Lógica de Programação", 60, "Nenhum", 1),
-    Materia("MATA39", "Seminários de Introdução ao Curso", 45, "Nenhum", 1),
-    Materia("MATA42", "Matemática Discreta I", 60, "Nenhum", 1),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: const Center(
-      //     child: Text('Materias'),
-      //   ),
-      // ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: materiasLC.length,
-          itemBuilder: (context, index) {
-            return ListTile(title: Text(materiasLC[index].nome), 
-            subtitle: Text(materiasLC[index].codigo), 
-            textColor: Colors.white,);
-          },
-        ),
-      ),
-    );
-  }
-}
-
-
-
-
