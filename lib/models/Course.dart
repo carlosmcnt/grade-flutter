@@ -5,7 +5,7 @@ class Course {
   final String codigo;
   final String nome;
   final int cargaHoraria;
-  final String prerequisitos;
+  String? prerequisitos;
   final int semestre;
 
   Course({
@@ -13,7 +13,7 @@ class Course {
     required this.nome,
     required this.cargaHoraria,
     required this.semestre,
-    required this.prerequisitos,
+    this.prerequisitos,
   });
 
   @override
