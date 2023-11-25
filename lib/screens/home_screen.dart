@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton(
               onPressed: () {
                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const CourseViewScreen()));
+                  builder: (context) => const CourseViewScreen(nomeCurso: "CC",)));
               },
               child: const Text('Ciência da Computação', style: TextStyle(color: Colors.white)),
             ),
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CourseViewScreen()),
+                  MaterialPageRoute(builder: (context) => const CourseViewScreen(nomeCurso: "SI",)),
                 );
               },
               child: const Text('Sistemas de Informação', style: TextStyle(color: Colors.white)),
@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CourseViewScreen()),
+                  MaterialPageRoute(builder: (context) => const CourseViewScreen(nomeCurso: "LC",)),
                 );
               },
               child: const Text('Licenciatura em Computação', style: TextStyle(color: Colors.white)),

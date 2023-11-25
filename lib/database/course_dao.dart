@@ -45,6 +45,17 @@ class CourseDao {
     return courses;
   }
 
+  Future<int> countAllHoursBySemester (int semester, String curso) async {
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> result = await db.query(curso, where: '$semestre = ?', whereArgs: [semester]);
+    final List<Course> courses = toList(result);
+    int totalHours = 0;
+    for (Course course in courses) {
+      totalHours += course.cargaHoraria;
+    }
+    return totalHours;
+  }
+
   Future<List<Course>> findAllCourses(String curso) async{
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> result = await db.query(curso);

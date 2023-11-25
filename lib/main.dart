@@ -1,13 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grade_flutter/screens/home_screen.dart';
 import 'firebase_options.dart';
 import 'package:grade_flutter/screens/login_screen.dart';
 import 'utils/colors_const.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,13 +12,6 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  if(kIsWeb){
-    databaseFactory = databaseFactoryFfiWeb;
-  }
-  else {
-    databaseFactory = databaseFactoryFfi;
-  }
 
   runApp(const GradeApp());
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'dart:core';
 import 'package:grade_flutter/database/course_dao.dart';
-import 'package:grade_flutter/models/course.dart';
+import 'package:grade_flutter/screens/course_list.dart';
 
 class CourseViewScreen extends StatefulWidget{
-  const CourseViewScreen({super.key});
+  const CourseViewScreen({super.key, required this.nomeCurso});
+
+  final String nomeCurso;
 
   @override
   State<CourseViewScreen> createState() => CourseViewScreenState();
@@ -11,6 +14,14 @@ class CourseViewScreen extends StatefulWidget{
 }
 
 class CourseViewScreenState extends State<CourseViewScreen>{
+
+  @override
+  void initState() {
+    super.initState();
+    nome = widget.nomeCurso;
+  }
+
+  String nome = '';
 
   List<Map<String, int>> semestres = [
     {"Semestre 1": 1},
@@ -21,8 +32,6 @@ class CourseViewScreenState extends State<CourseViewScreen>{
     {"Semestre 6": 6},
     {"Semestre 7": 7},
     {"Semestre 8": 8},
-    {"Optativas": 0},
-  
   ];
 
   final CourseDao courseDao = CourseDao();
@@ -36,10 +45,10 @@ class CourseViewScreenState extends State<CourseViewScreen>{
             text: const TextSpan(
               children: [
                 WidgetSpan(
-                  child: Icon(Icons.grading, size: 25),
+                  child: Icon(Icons.school_sharp, size: 25),
                 ),
                 TextSpan(
-                  text: " Minhas matérias",
+                  text: " Lista de semestres",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -58,7 +67,7 @@ class CourseViewScreenState extends State<CourseViewScreen>{
               text: TextSpan(
                 children: [
                   const WidgetSpan(
-                    child: Icon(Icons.bookmark_add, size: 25),
+                    child: Icon(Icons.my_library_books_sharp, size: 25),
                   ),
                   TextSpan(
                     text: " ${semestres[index].keys.first}",
@@ -72,13 +81,30 @@ class CourseViewScreenState extends State<CourseViewScreen>{
               ),
             ),
             onTap: () async {
-              // ignore: unused_local_variable
-              List<Course> courses = [];
-              if (semestres[index].values.first == 1) {
-                courses = await courseDao.findAllCourses('materiasCC');
-              } else {
-                courses = await courseDao.findAllBySemester(semestres[index].values.first, 'materiasCC');
+              List courses = [];
+              int totalHours = 0;
+              if(nome == 'LC'){
+                courses = await courseDao.findAllBySemester(semestres[index].values.first, 'materiasLC');
+                totalHours = await courseDao.countAllHoursBySemester(semestres[index].values.first, 'materiasLC');
               }
+              else if(nome == 'SI'){
+                courses = await courseDao.findAllBySemester(semestres[index].values.first, 'materiasSI');
+                totalHours = await courseDao.countAllHoursBySemester(semestres[index].values.first, 'materiasSI');
+              }
+              else if(nome == 'CC'){
+                courses = await courseDao.findAllBySemester(semestres[index].values.first, 'materiasCC');
+                totalHours = await courseDao.countAllHoursBySemester(semestres[index].values.first, 'materiasCC');
+              }
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CourseList(
+                    courses: courses, 
+                    semestre: semestres[index].values.first, 
+                    horasTotais: totalHours,),
+                ),
+              );
             },
           );
         },
