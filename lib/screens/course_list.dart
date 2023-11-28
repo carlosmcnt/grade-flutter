@@ -39,7 +39,13 @@ class CourseListState extends State<CourseList>{
                   child: Icon(Icons.grading, size: 25),
                 ),
                 TextSpan(
-                  text: " Minhas matérias - $semestreº semestre",
+                  text: (() {
+                    if (semestre == 0) {
+                      return " Optativas";
+                    } else {
+                      return " Semestre $semestre";
+                    }
+                  })(),
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

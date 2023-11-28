@@ -32,6 +32,7 @@ class CourseViewScreenState extends State<CourseViewScreen>{
     {"Semestre 6": 6},
     {"Semestre 7": 7},
     {"Semestre 8": 8},
+    {"Optativas": 0}
   ];
 
   final CourseDao courseDao = CourseDao();
