@@ -84,18 +84,23 @@ class CourseViewScreenState extends State<CourseViewScreen>{
             onTap: () async {
               List courses = [];
               int totalHours = 0;
+              List all = [];
               if(nome == 'LC'){
-                courses = await courseDao.findAllBySemester(semestres[index].values.first, 'materiasLC');
+                courses = await courseDao.findAllCoursesBySemester(semestres[index].values.first, 'materiasLC');
                 totalHours = await courseDao.countAllHoursBySemester(semestres[index].values.first, 'materiasLC');
+                all = await courseDao.findAllCourses('materiasLC');
               }
               else if(nome == 'SI'){
-                courses = await courseDao.findAllBySemester(semestres[index].values.first, 'materiasSI');
+                courses = await courseDao.findAllCoursesBySemester(semestres[index].values.first, 'materiasSI');
                 totalHours = await courseDao.countAllHoursBySemester(semestres[index].values.first, 'materiasSI');
+                all = await courseDao.findAllCourses('materiasSI');
               }
               else if(nome == 'CC'){
-                courses = await courseDao.findAllBySemester(semestres[index].values.first, 'materiasCC');
+                courses = await courseDao.findAllCoursesBySemester(semestres[index].values.first, 'materiasCC');
                 totalHours = await courseDao.countAllHoursBySemester(semestres[index].values.first, 'materiasCC');
+                all = await courseDao.findAllCourses('materiasCC');
               }
+              Set<String> completed = await courseDao.findAllCompleted();
               // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
@@ -103,7 +108,10 @@ class CourseViewScreenState extends State<CourseViewScreen>{
                   builder: (context) => CourseList(
                     courses: courses, 
                     semestre: semestres[index].values.first, 
-                    horasTotais: totalHours,),
+                    horasTotais: totalHours,
+                    all: all,
+                    completed: completed,
+                  ),
                 ),
               );
             },

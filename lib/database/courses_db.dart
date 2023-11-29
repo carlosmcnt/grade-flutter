@@ -8,11 +8,12 @@ Future<Database> getDatabase() async {
   final documentsDirectory = await getApplicationDocumentsDirectory();
   var dbPath = join(documentsDirectory.path, "grade.db");
 
-  await deleteDatabase(dbPath);
-
-  ByteData data = await rootBundle.load("lib/database/grade.db");
-  List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-  await File(dbPath).writeAsBytes(bytes);
+  bool exists = await databaseExists(dbPath);
+  if(!exists) {
+    ByteData data = await rootBundle.load("lib/database/grade.db");
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await File(dbPath).writeAsBytes(bytes);
+  }
 
   return await openDatabase(dbPath);
 }

@@ -12,8 +12,17 @@ class CourseDao {
   static const String cargaHoraria = 'cargaHoraria';
   static const String semestre = 'semestre';
   static const String preRequisitos = 'preRequisitos';
-  
-  List<Course> toList(List<Map<String, dynamic>> result) {
+
+  Set<String> toCompletedSet(List<Map<String, dynamic>> result) {
+    final Set<String> completed = {};
+    for (Map<String, dynamic> row in result) {
+      final String course = row[codigo];
+      completed.add(course);
+    }
+    return completed;
+  }
+
+  List<Course> toCourseList(List<Map<String, dynamic>> result) {
     final List<Course> courses = List<Course>.empty(growable: true);
     for (Map<String, dynamic> row in result) {
       final Course course = Course(
@@ -28,7 +37,7 @@ class CourseDao {
     return courses;
   }
 
-  Map<String, dynamic> toMap(Course course) {
+  Map<String, dynamic> toCourseMap(Course course) {
     final Map<String, dynamic> courseMap = {};
     courseMap[codigo] = course.codigo;
     courseMap[nome] = course.nome;
@@ -38,29 +47,46 @@ class CourseDao {
     return courseMap;
   }
 
-  Future<List<Course>> findAllBySemester(int semester, String curso) async {
+  Future<Set<String>> findAllCompleted() async {
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> result = await db.query("completed");
+    final Set<String> courses = toCompletedSet(result);
+    return courses;
+  }
+
+  Future<void> updateAllCompleted(Set<String> completed) async {
+    final Database db = await getDatabase();
+    await db.transaction((txn) async {
+      await txn.delete('completed');
+      for (String course in completed) {
+        await txn.insert('completed', {'codigo': course});
+      }
+    });
+  }
+
+  Future<List<Course>> findAllCourses(String curso) async {
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> result = await db.query(curso);
+    final List<Course> courses = toCourseList(result);
+    return courses;
+  }
+
+  Future<List<Course>> findAllCoursesBySemester(int semester, String curso) async {
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> result = await db.query(curso, where: '$semestre = ?', whereArgs: [semester]);
-    final List<Course> courses = toList(result);
+    final List<Course> courses = toCourseList(result);
     return courses;
   }
 
   Future<int> countAllHoursBySemester (int semester, String curso) async {
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> result = await db.query(curso, where: '$semestre = ?', whereArgs: [semester]);
-    final List<Course> courses = toList(result);
+    final List<Course> courses = toCourseList(result);
     int totalHours = 0;
     for (Course course in courses) {
       totalHours += course.cargaHoraria;
     }
     return totalHours;
-  }
-
-  Future<List<Course>> findAllCourses(String curso) async{
-    final Database db = await getDatabase();
-    final List<Map<String, dynamic>> result = await db.query(curso);
-    final List<Course> courses = toList(result);
-    return courses;
   }
 
 }
