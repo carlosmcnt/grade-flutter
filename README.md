@@ -10,8 +10,8 @@ Entrar na pasta raiz do projeto, digitar no terminal `flutter run` e selecionar 
 
 - Tela de Login/Registrar
 - Tela de Home/Seleção de Cursos (Ciência da Computação, Sistemas de Informação, Licenciatura em Computação)
-- Tela de Visualização da Grade (em desenvolvimento)
-- Tela de Detalhes da Matéria (em desenvolvimento)
+- Tela de Visualização da Grade 
+- Tela de Detalhes da Matéria 
 
 ## Bibliotecas usadas
 
