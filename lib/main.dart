@@ -43,6 +43,7 @@ class GradeApp extends StatelessWidget {
             ),
           ),
         ),
+        useMaterial3: false
       ),
       home: const Router(),
     );
